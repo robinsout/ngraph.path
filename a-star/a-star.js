@@ -1,6 +1,6 @@
 /**
  * Performs a uni-directional A Star search on graph.
- * 
+ *
  * We will try to minimize f(n) = g(n) + h(n), where
  * g(n) is actual distance from source node to `n`, and
  * h(n) is heuristic distance from `n` to target node.
@@ -20,7 +20,7 @@ module.exports.l1 = heuristics.l1;
 /**
  * Creates a new instance of pathfinder. A pathfinder has just one method:
  * `find(fromId, toId)`, it may be extended in future.
- * 
+ *
  * @param {ngraph.graph} graph instance. See https://github.com/anvaka/ngraph.graph
  * @param {Object} options that configures search
  * @param {Function(a, b)} options.heuristic - a function that returns estimated distance between
@@ -30,7 +30,7 @@ module.exports.l1 = heuristics.l1;
  * @param {Function(a, b)} options.distance - a function that returns actual distance between two
  * nodes `a` and `b`. By default this is set to return graph-theoretical distance (always 1);
  * @param {Boolean} options.oriented - whether graph should be considered oriented or not.
- * 
+ *
  * @returns {Object} A pathfinder with single method `find()`.
  */
 function aStarPathSearch(graph, options) {
@@ -141,5 +141,8 @@ function reconstructPath(searchState) {
     parent = parent.parent;
   }
 
-  return path;
+  return {
+    path,
+    distance : searchState.distanceToSource
+  };
 }
