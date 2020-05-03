@@ -3,7 +3,7 @@
 This is the fork of the great and fery fast [pathFinder](https://github.com/anvaka/ngraph.path) by anvaka.
 
 The only difference is that **aStar** method from it returns an object with distance field.
-This a bit affects it's usage:
+That affects it's usage a bit:
 ``` js
 pathFinder.find(fromNodeId, toNodeId)
 ```
