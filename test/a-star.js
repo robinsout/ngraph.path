@@ -19,7 +19,7 @@ test('it can find weighted', t => {
       return link.data.weight;
     }
   });
-  let path = pathFinder.find('a', 'd');
+  let path = pathFinder.find('a', 'd').path;
 
   t.equals(path[0].id, 'd', 'd is here');
   t.equals(path[1].id, 'c', 'c is here');
@@ -47,7 +47,7 @@ test('A* can find directed path', t => {
   var pathFinder = aStar(graph, {
     oriented: true
   });
-  let path = pathFinder.find('a', 'e');
+  let path = pathFinder.find('a', 'e').path;
 
   t.equals(path[0].id, 'e', 'e is here');
   t.equals(path[1].id, 'd', 'd is here');
@@ -119,7 +119,7 @@ test('it can use heuristic', t => {
       return Math.sqrt(dx * dx + dy * dy);
     }
   });
-  let path = pathFinder.find('NYC', 'Washington');
+  let path = pathFinder.find('NYC', 'Washington').path;
 
   t.equals(path[0].id, 'Washington', 'Washington is here');
   t.equals(path[1].id, 'Philadelphia', 'Philadelphia is here');
@@ -136,7 +136,7 @@ test('it can find path without any config', t => {
   }`);
 
   var pathFinder = aStar(graph);
-  let path = pathFinder.find('a', 'c');
+  let path = pathFinder.find('a', 'c').path;
   t.equals(path[0].id, 'c', 'c is here');
   t.equals(path[1].id, 'b', 'b is here');
   t.equals(path[2].id, 'a', 'a is here');
@@ -161,8 +161,9 @@ test('it can find paths', (t) => {
   }`);
   
   graph.getNode('a').data = { x: 0, y: 0 };
-  graph.getNode('b').data = { x: 2, y: 0 };  graph.getNode('c').data = { x: 1, y: 1 }
-  graph.getNode('d').data = { x: 2, y: 2 }
+  graph.getNode('b').data = { x: 2, y: 0 };
+  graph.getNode('c').data = { x: 1, y: 1 };
+  graph.getNode('d').data = { x: 2, y: 2 };
 
   var pathFind = aStar(graph, {
     heuristic(from, to) {
@@ -179,7 +180,7 @@ test('it can find paths', (t) => {
     }
   });
 
-  var path = pathFind.find('a', 'd')
+  var path = pathFind.find('a', 'd').path;
   t.equals(path.length, 3, 'Three nodes in path')
   t.equals(path[0].id, 'd', 'd is here')
   t.equals(path[1].id, 'b', 'b is here')
@@ -265,7 +266,7 @@ test('it finds path on simple graph', (t) => {
     testCase.queries.forEach(query => {
       var expected = query.route.join('\n')
       var path = aStar(graph, manhattanFromData());
-      var foundRoute = path.find(query.from, query.to).map(toPos);
+      var foundRoute = path.find(query.from, query.to).path.map(toPos);
       var grid = asciiUtils.graphToTextGrid(graph);
       grid.drawPath(foundRoute);
 
